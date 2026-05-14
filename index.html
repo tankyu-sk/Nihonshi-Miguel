@@ -1,0 +1,358 @@
+```react
+import React, { useState } from 'react';
+import { Sparkles, X, Ship, BookOpen, Heart, Flame, Scroll, Map, Award, Globe, History, User } from 'lucide-react';
+
+const App = () => {
+  const [selectedHero, setSelectedHero] = useState(null);
+
+  const images = {
+    mansho: "https://hitotsuya.com/neo/wp-content/uploads/2018/01/2667_large-225x300.jpg",
+    miguel: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmIF1XCwQKJDQVG4P2FWwcNSZloLaXfrITWNP9cggUpBCNHC4mzKmiwC1Lr3VMDygbuDyOHYy2bZ1TTfrI9FEYipsuEcr0eWMQZVh2pA&s=10",
+    julian: "https://rekicon.com/wp-content/uploads/person-nakaura-julian.jpg",
+    martino: "https://rekicon.com/wp-content/uploads/person-hara-martino.jpg"
+  };
+
+  const ambassadors = [
+    {
+      id: 'mansho',
+      name: '伊東マンショ',
+      title: '教皇に謁見した正使',
+      purpose: '大友宗麟の代理として、ローマへ日本の実状を報告し、支援を求めること。',
+      after: '帰国後、司祭に叙階。禁教令が強まる中、豊後（大分）にて布教活動を続けた。',
+      end: '1612年、長崎にて病死。4人の中で唯一、安らかな最期を迎えた。享年43。',
+      episode: 'ローマ入りの際、その堂々たる振る舞いは「東洋の王子」と称賛され、教皇グレゴリウス13世をも魅了した。',
+      color: 'from-amber-400 to-yellow-600',
+      icon: <Ship className="w-6 h-6" />,
+      img: images.mansho
+    },
+    {
+      id: 'miguel',
+      name: '千々石ミゲル',
+      title: '苦悩の棄教者',
+      purpose: '大村純忠の代理。ヨーロッパの文化と信仰を日本へ持ち帰る重責を担った。',
+      after: '帰国後、唯一棄教を選び「清左衛門」と改名。その決断の真意は今も歴史の謎である。',
+      end: '1633年頃、長崎で死去。近年、彼の墓所からロザリオが発見され、潜伏信仰の可能性が浮上している。',
+      episode: 'ヨーロッパで見た教会の権力闘争が、彼の純粋な信仰心に影を落としたとも言われている。',
+      color: 'from-slate-400 to-slate-700',
+      icon: <Heart className="w-6 h-6" />,
+      img: images.miguel
+    },
+    {
+      id: 'julian',
+      name: '中浦ジュリアン',
+      title: '不屈の殉教者',
+      purpose: '有馬晴信の代理。西欧文明を直接目にし、日本の布教に役立てること。',
+      after: '帰国後、司祭として20年以上の潜伏活動を行い、貧しい信者たちを支え続けた。',
+      end: '1633年、長崎にて「穴吊りの刑」に処される。「私はローマへ行った中浦神父である」と叫び、殉教。',
+      episode: '誰よりも体が弱く、航海中も高熱に苦しんだが、その精神力は四人の中で最も強靭であった。',
+      color: 'from-red-500 to-orange-700',
+      icon: <Flame className="w-6 h-6" />,
+      img: images.julian
+    },
+    {
+      id: 'martino',
+      name: '原マルティノ',
+      title: '言葉の魔術師',
+      purpose: '副使。語学の才を活かし、通訳やラテン語交流の要として活躍した。',
+      after: '帰国後、司祭に。活版印刷機を用いた「キリシタン版」の出版に従事し、文化に貢献した。',
+      end: '1629年、追放先のマカオにて病死。異国の地から最期まで日本のために祈り続けた。',
+      episode: 'ラテン語の演説が「全ヨーロッパのどの若者よりも優れている」と絶賛されたインテリ。',
+      color: 'from-indigo-400 to-blue-700',
+      icon: <BookOpen className="w-6 h-6" />,
+      img: images.martino
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-[#0a0a0c] text-slate-100 font-serif pb-20 overflow-x-hidden">
+      {/* ギラギラ背景 */}
+      <div className="fixed inset-0 pointer-events-none opacity-30">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-amber-500/10 blur-[150px] animate-pulse"></div>
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-500/10 blur-[150px] animate-pulse delay-1000"></div>
+      </div>
+
+      {/* 1. イントロダクション */}
+      <section className="relative h-screen flex flex-col items-center justify-center text-center px-6">
+        <div className="animate-in fade-in slide-in-from-bottom-8 duration-1000">
+          <div className="flex justify-center gap-2 mb-4">
+            <Sparkles className="text-amber-400 animate-bounce" />
+            <span className="text-amber-500 tracking-[0.5em] uppercase text-sm">Tensho Embassy</span>
+            <Sparkles className="text-amber-400 animate-bounce delay-75" />
+          </div>
+          <h1 className="text-6xl md:text-8xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-amber-200 via-yellow-500 to-amber-200 drop-shadow-2xl">
+            黄金の航跡
+          </h1>
+          <p className="mt-8 max-w-2xl mx-auto text-xl md:text-2xl text-slate-300 leading-relaxed italic">
+            1582年。戦国時代の日本から、4人の少年たちが遥か彼方ヨーロッパへと旅立った。<br/>
+            それは、日本が初めて西洋文明と本格的に出会った、誇り高き歴史の幕開けである。
+          </p>
+        </div>
+      </section>
+
+      {/* 3. 派遣目的 */}
+      <section className="relative py-32 px-6 bg-[#0d0d12]">
+        <div className="max-w-4xl mx-auto border border-amber-500/20 p-8 md:p-16 rounded-3xl bg-gradient-to-br from-white/5 to-transparent backdrop-blur-sm shadow-2xl">
+          <div className="flex items-center gap-4 mb-8">
+            <Globe className="text-amber-500 w-10 h-10" />
+            <h2 className="text-3xl md:text-4xl font-bold text-amber-200 uppercase tracking-widest">派遣の目的</h2>
+          </div>
+          <div className="space-y-6 text-lg text-slate-300 leading-relaxed">
+            <p>
+              イエズス会の宣教師ヴァリニャーノは、日本のキリスト教を永続させるべく、少年たちに二つの大役を託しました。
+            </p>
+            <ul className="grid gap-6 mt-8">
+              <li className="flex gap-4">
+                <div className="h-6 w-6 rounded-full bg-amber-500 flex-shrink-0 flex items-center justify-center text-black font-bold text-xs mt-1">1</div>
+                <div>
+                  <strong className="text-white block mb-1">ローマ教皇への報告と支援の要請</strong>
+                  日本における布教の成功を実証し、ヨーロッパからの経済的・政治的支援を取り付けること。
+                </div>
+              </li>
+              <li className="flex gap-4">
+                <div className="h-6 w-6 rounded-full bg-amber-500 flex-shrink-0 flex items-center justify-center text-black font-bold text-xs mt-1">2</div>
+                <div>
+                  <strong className="text-white block mb-1">西洋文明の証言者</strong>
+                  少年たち自身にキリスト教世界の偉大さを学ばせ、帰国後に日本の指導者層へその権威を伝えること。
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. 人物紹介 (グリッド) */}
+      <section className="relative py-32 px-6">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold text-amber-200 mb-4 tracking-widest uppercase">四人の若き使節</h2>
+          <p className="text-slate-500">肖像画をタップしてその詳細を辿る</p>
+        </div>
+        
+        <main className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+          {ambassadors.map((amb) => (
+            <div
+              key={amb.id}
+              onClick={() => setSelectedHero(amb)}
+              className="group relative cursor-pointer"
+            >
+              <div className={`absolute -inset-1 bg-gradient-to-b ${amb.color} rounded-2xl blur opacity-20 group-hover:opacity-100 transition duration-700`}></div>
+              
+              <div className="relative bg-[#0d0d12] border border-white/5 rounded-2xl overflow-hidden aspect-[3/4.5] shadow-2xl flex flex-col transform transition duration-500 group-hover:-translate-y-4">
+                <div className="relative h-3/4 overflow-hidden">
+                  <img
+                    src={amb.img}
+                    alt={amb.name}
+                    className="w-full h-full object-cover transition duration-1000 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d12] via-transparent to-transparent opacity-60"></div>
+                </div>
+                <div className="p-6 flex-1 flex flex-col justify-center items-center text-center">
+                  <h2 className="text-2xl font-bold text-white group-hover:text-amber-300 transition-colors">{amb.name}</h2>
+                  <p className="text-xs text-amber-500/70 mt-2 tracking-widest uppercase">{amb.title}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </main>
+      </section>
+
+      {/* 政治との関わり */}
+      <section className="relative py-32 px-6 bg-[#0a0a0c]">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-16">
+            <History className="text-amber-500 w-12 h-12 mx-auto mb-4" />
+            <h2 className="text-4xl font-bold text-amber-200 tracking-widest uppercase">政治との関わり</h2>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-0 border border-amber-500/30 rounded-3xl overflow-hidden shadow-2xl bg-black/40">
+            <div className="p-10 border-b md:border-b-0 md:border-r border-amber-500/30 bg-gradient-to-br from-amber-900/10 to-transparent">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-3 h-3 rounded-full bg-amber-400 animate-pulse"></div>
+                <h3 className="text-2xl font-bold text-amber-300">信長政権下での出発</h3>
+              </div>
+              <p className="text-slate-300 leading-relaxed text-lg">
+                使節が日本を出発した1582年は、織田信長が安土城にセミナリヨを認めるなど、キリスト教に対して比較的寛容な政治環境でした。少年たちは、西洋への知的好奇心が溢れる時代の中で見送られたのです。
+              </p>
+            </div>
+            <div className="p-10 bg-gradient-to-br from-red-900/10 to-transparent">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-3 h-3 rounded-full bg-red-500 animate-pulse"></div>
+                <h3 className="text-2xl font-bold text-red-400">秀吉の天下統一と追放令</h3>
+              </div>
+              <p className="text-slate-300 leading-relaxed text-lg">
+                少年たちが滞在している間に政治権力は豊臣秀吉へと移ります。秀吉は国内統一を進める中で、既存の秩序を脅かすキリスト教を警戒し、1587年にバテレン追放令を発令。帰国した彼らを待っていたのは、全く別の日本でした。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. タイムライン */}
+      <section className="relative py-32 px-6">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex items-center gap-4 mb-16 justify-center">
+            <Map className="text-amber-500 w-10 h-10" />
+            <h2 className="text-4xl font-bold text-amber-200 uppercase tracking-widest">航海の日記</h2>
+          </div>
+          
+          <div className="relative space-y-12">
+            <div className="absolute left-[15px] top-4 bottom-4 w-px bg-amber-500/20"></div>
+            {[
+              { year: "1582", event: "長崎を出港", detail: "ヴァリニャーノに連れられ、口之津から遥か西海へ。" },
+              { year: "1584", event: "ポルトガル到着", detail: "ヨーロッパの土を踏んだ初めての日本人として歓迎を受ける。" },
+              { year: "1585", event: "ローマ教皇謁見", detail: "教皇グレゴリウス13世との対面。欧州中に「Tensho」の名が轟く。" },
+              { year: "1590", event: "長崎へ帰国", detail: "八年半の旅。禁教の始まりとともに、彼らの苦難が幕を開ける。" }
+            ].map((step, idx) => (
+              <div key={idx} className="relative pl-12">
+                <div className="absolute left-0 top-1 w-8 h-8 rounded-full bg-black border-2 border-amber-500 flex items-center justify-center z-10">
+                  <div className="w-1.5 h-1.5 rounded-full bg-amber-500"></div>
+                </div>
+                <span className="text-amber-500 font-bold text-xl">{step.year}</span>
+                <h3 className="text-white text-2xl font-bold mt-1">{step.event}</h3>
+                <p className="text-slate-400 mt-2 italic">{step.detail}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 5. 歴史的意義 */}
+      <section className="relative py-32 px-6 bg-[#0d0d12]">
+        <div className="max-w-6xl mx-auto text-center mb-16">
+          <Award className="text-amber-500 w-12 h-12 mx-auto mb-4" />
+          <h2 className="text-4xl font-bold text-amber-200 tracking-widest uppercase">歴史的意義</h2>
+        </div>
+        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          <div className="p-8 rounded-3xl bg-white/5 border border-amber-500/10">
+            <h3 className="text-2xl font-bold text-amber-400 mb-4 flex items-center gap-2">
+              <BookOpen size={24} /> 活版印刷機の導入
+            </h3>
+            <p className="text-slate-300 leading-relaxed">
+              彼らが持ち帰ったグーテンベルク式の印刷機は、日本の出版文化に大きな影響を与えました。「キリシタン版」の出版は、日本語の文字文化に革命をもたらしました。
+            </p>
+          </div>
+          <div className="p-8 rounded-3xl bg-white/5 border border-amber-500/10">
+            <h3 className="text-2xl font-bold text-amber-400 mb-4 flex items-center gap-2">
+              <Globe size={24} /> 文化の架け橋
+            </h3>
+            <p className="text-slate-300 leading-relaxed">
+              世界地図やオルガンなどの楽器を持ち帰り、西洋の科学と芸術を初めて日本に伝えました。彼らは日本が世界の一部であることを示した先駆者でした。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* 私との繋がり */}
+      <section className="relative py-32 px-6 bg-gradient-to-t from-amber-500/5 to-transparent">
+        <div className="max-w-4xl mx-auto text-center">
+          <User className="text-amber-500 w-10 h-10 mx-auto mb-8" />
+          <h2 className="text-3xl font-bold text-amber-200 mb-12 tracking-[0.3em] uppercase">私との繋がり</h2>
+          
+          <div className="p-10 md:p-14 border border-amber-500/20 rounded-3xl bg-black/40 backdrop-blur-sm relative">
+            <p className="text-xl text-slate-300 leading-relaxed italic text-left">
+              新しいモノや知見を求めて命懸けで海を渡った若者たち。その姿は、新鮮な発想を求めて受験に受かるか受からないかの瀬戸際でネットサーフィンに没頭する私に、似ているようで正反対だ。彼らの革新的な知見がその後の日本を動かしたように、私もこの航海で得た知識を、日本の将来に活かしていきたい。
+            </p>
+            <div className="mt-8 text-right">
+              <span className="text-amber-500/80 italic font-medium text-lg tracking-tighter">
+                ──────────────── 平位ミゲル
+              </span>
+            </div>
+            <div className="mt-12 flex justify-center gap-2 opacity-50">
+              <Sparkles className="text-amber-500 w-4 h-4" />
+              <Sparkles className="text-amber-500 w-4 h-4" />
+              <Sparkles className="text-amber-500 w-4 h-4" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 詳細モーダル (バツボタンと背景クリック修正) */}
+      {selectedHero && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/95 backdrop-blur-xl animate-in fade-in duration-300 overflow-y-auto"
+          onClick={() => setSelectedHero(null)} // 背景クリックで閉じる
+        >
+          <div 
+            className="relative w-full max-w-5xl bg-[#111116] rounded-3xl overflow-hidden shadow-[0_0_100px_rgba(251,191,36,0.15)] border border-amber-500/30 flex flex-col md:flex-row max-h-[90vh] my-auto"
+            onClick={(e) => e.stopPropagation()} // 中身クリック時は閉じない
+          >
+            {/* モーダルを閉じるバツボタン */}
+            <button 
+              type="button"
+              onClick={() => setSelectedHero(null)}
+              className="absolute top-6 right-6 z-50 p-3 bg-amber-500/10 hover:bg-amber-500 text-white rounded-full transition-all duration-300 flex items-center justify-center border border-amber-500/20 shadow-lg"
+              aria-label="Close"
+            >
+              <X size={28} strokeWidth={3} />
+            </button>
+
+            <div className="w-full md:w-5/12 h-64 md:h-auto relative overflow-hidden bg-black shrink-0">
+              <img
+                src={selectedHero.img}
+                alt={selectedHero.name}
+                className="w-full h-full object-contain md:object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#111116] hidden md:block"></div>
+            </div>
+
+            <div className="flex-1 p-8 md:p-14 overflow-y-auto custom-scrollbar">
+              <div className="mb-8 pr-12">
+                <span className="text-amber-500 font-bold tracking-[0.3em] text-sm uppercase block mb-1">{selectedHero.title}</span>
+                <h2 className="text-4xl md:text-5xl font-bold text-white mb-2">{selectedHero.name}</h2>
+              </div>
+
+              <div className="space-y-12">
+                <section>
+                  <h3 className="text-amber-200 text-lg font-bold mb-3 flex items-center gap-3">
+                    <Ship className="text-amber-500" size={20} /> 旅の目的
+                  </h3>
+                  <p className="text-slate-300 leading-relaxed text-lg pl-6 border-l-2 border-amber-500/30">
+                    {selectedHero.purpose}
+                  </p>
+                </section>
+                <section>
+                  <h3 className="text-amber-200 text-lg font-bold mb-3 flex items-center gap-3">
+                    <Scroll className="text-amber-500" size={20} /> 帰国後の動向
+                  </h3>
+                  <p className="text-slate-300 leading-relaxed text-lg pl-6 border-l-2 border-amber-500/30">
+                    {selectedHero.after}
+                  </p>
+                </section>
+                <section>
+                  <h3 className="text-amber-200 text-lg font-bold mb-3 flex items-center gap-3">
+                    <Flame className="text-amber-500" size={20} /> 最期
+                  </h3>
+                  <p className="text-slate-300 leading-relaxed text-lg pl-6 border-l-2 border-amber-500/30">
+                    {selectedHero.end}
+                  </p>
+                </section>
+                <section className="bg-amber-900/10 p-6 rounded-2xl border border-amber-500/10 italic">
+                  <h4 className="text-amber-400 font-bold mb-2 flex items-center gap-2 not-italic text-sm uppercase">
+                    <Sparkles size={16} /> Episode
+                  </h4>
+                  <p className="text-slate-300 leading-relaxed">
+                    {selectedHero.episode}
+                  </p>
+                </section>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <footer className="mt-20 border-t border-white/5 pt-12 text-center text-slate-600 px-6">
+        <p className="text-amber-500/20 tracking-[0.5em] uppercase text-xs mb-4">Official Historical Archive</p>
+        <p>&copy; 2024 天正遣欧少年使節：黄金の航跡</p>
+      </footer>
+
+      <style>{`
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(251, 191, 36, 0.2); border-radius: 10px; }
+      `}</style>
+    </div>
+  );
+};
+
+export default App;
+
+```
